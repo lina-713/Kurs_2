@@ -1,0 +1,20 @@
+﻿<Window x:Class="Kurs_2.AddNewFile"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Kurs_2"
+        mc:Ignorable="d"
+        Title="AddNewFile" Height="374" Width="477">
+    <Grid Margin="0,0,10,-6">
+        <Label Content="Название файла" HorizontalAlignment="Left" Margin="90,86,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.769,0.31"/>
+        <Label Content="Устройство" HorizontalAlignment="Left" Margin="90,117,0,0" VerticalAlignment="Top"/>
+        <Label Content="" HorizontalAlignment="Left" Margin="113,0,0,0" VerticalAlignment="Center"/>
+        <Label Content="Размер файла" HorizontalAlignment="Left" Margin="90,148,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.069,-0.063"/>
+        <TextBox x:Name="NewFileName" HorizontalAlignment="Left" Margin="217,86,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="183"/>
+        <TextBox x:Name="NewFileSize" HorizontalAlignment="Left" Margin="217,156,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="183"/>
+        <Button x:Name="AddNewFileButton" Content="Добавить файл" HorizontalAlignment="Center" Margin="0,235,0,0" VerticalAlignment="Top" Height="34" Width="102" Click="AddNewFileButton_Click"/>
+        <ComboBox x:Name="Combo_Device" HorizontalAlignment="Left" Margin="217,121,0,0" VerticalAlignment="Top" Width="183" ItemsSource="{Binding}" DisplayMemberPath="IValue" SelectedValuePath="IKey"/>
+
+    </Grid>
+</Window>

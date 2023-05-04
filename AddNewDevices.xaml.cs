@@ -23,14 +23,10 @@ namespace Kurs_2
     public partial class AddNewDevices : Window
     {
         private readonly NpgsqlConnection _connection;
-        public AddNewDevices()
-        {
-            InitializeComponent();
-        }
-        
         public AddNewDevices(NpgsqlConnection npgsqlConnection)
         {
             _connection = npgsqlConnection;
+            InitializeComponent();
         }
         private void DAddDevice_Click(object sender, RoutedEventArgs e)
         {

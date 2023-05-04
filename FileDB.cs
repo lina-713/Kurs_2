@@ -9,9 +9,9 @@ namespace Kurs_2
     public class Files
     {
         public int ID { get; set; }
+        public int DeviceId { get; set; }
         public string FileName { get; set; }
         public DateTime CreationDate { get; set; }
-        public DateTime ChangeDate { get; set; }
         public int FileSize { get; set; }
         public int UserId { get; set; }
     }
@@ -27,10 +27,12 @@ namespace Kurs_2
     public class Users
     {
         public int ID { get; set; }
+        public int FileId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MiddleName { get; set; }
         public DateTime RegistrationDate { get; set; }
+        public DateTime LastActivity { get; set; }
         public string LoginUser { get; set; }
         public string PasswordUser { get; set; }
 

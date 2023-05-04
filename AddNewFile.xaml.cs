@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,58 +22,57 @@ namespace Kurs_2
     /// Логика взаимодействия для AddNewFile.xaml
     /// </summary>
     public partial class AddNewFile : Window
-    {   
+    {
         private readonly NpgsqlConnection _connection;
-        private ObservableCollection<DeviceDictionary> deviceDictionary;
-
-        private Files files = new Files();
-        private Device device = new Device();
 
         public AddNewFile(NpgsqlConnection npgsqlConnection)
         {
             _connection = npgsqlConnection;
             InitializeComponent();
-            var columnValues = new ObservableCollection<string> { "iPhone 6S Plus", "Nexus 6P", "Galaxy S7 Edge" };
-            Combo_Device.ItemsSource = columnValues;
+            var list = GetDeviceList();
+            ObservableCollection<DeviceDictionary> deviceDictionaries = new();
+            //list.ForEach(deviceName => deviceDictionaries.Add(new DeviceDictionary() { IKey = String.Empty, IValue = deviceName }));
+            Combo_Device.ItemsSource = deviceDictionaries;
         }
-
         private void AddNewFileButton_Click(object sender, RoutedEventArgs e)
         {
-            _connection.Open();
-            string sql = "SELECT devicename FROM Files.Device";
-            Combo_Device_SelectionChanged(sql, "devicename", Combo_Device);
-        }
-
-        private void Combo_Device_SelectionChanged(string stringQuery, string column, ComboBox myBox)
-        {
-            _connection.Open();
-            List<string> columnValues = GetColumnValues(stringQuery, column);
-            myBox.ItemsSource = columnValues.ToList();
-            //string sql = "SELECT devicename FROM Files.Device";
-           // loadElementToComboBox(sql, "devicename", Combo_Device);
-           // NpgsqlCommand command = new NpgsqlCommand(sql, _connection);
-           // command.ExecuteNonQuery();
-           // command.Dispose();
-            //NpgsqlCommand command = new NpgsqlCommand("combobox_device", _connection);
-            // command.CommandType = System.Data.CommandType.StoredProcedure;
-
-        }
-        public List<string> GetColumnValues(string query, string columnName)
-        {
-            List<string> columnValues = new List<string>();
-            _connection.Open();
-
-            using (NpgsqlCommand command = new NpgsqlCommand(query, _connection))
+            DateTime dateTime = DateTime.Now;
+            NpgsqlCommand command = new NpgsqlCommand("add_new_file", _connection);
+            
+            try
             {
-                NpgsqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    object columnValueObject = reader.GetValue(reader.GetOrdinal(columnName));
-                    string columnValue = columnValueObject != DBNull.Value ? columnValueObject.ToString() : "";
-                    columnValues.Add(columnValue);
-                }
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@new_file_name", NewFileName.Text);
+                command.Parameters.AddWithValue("@new_file_name", NewFileName.Text);
+                command.Parameters.AddWithValue("@new_creation_date", dateTime);
+                command.Parameters.AddWithValue("@new_file_size", Convert.ToInt32(NewFileSize.Text));
+                command.ExecuteNonQuery();
+                MessageBox.Show("Файл добавлен!");
             }
-            return columnValues;
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+            finally
+            {
+                _connection.Close();
+            }
+        }
+        private List<int> GetDeviceList()
+        {
+            _connection.Open();
+            var list = new List<int>();
+            string query = string.Format("select combox_device()");
+            var command = _connection.CreateCommand();
+            command.CommandText = query;
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                list.Add(reader.GetInt32(0));
+            }
+            _connection.Close();
+            return list;
+            
         }
     }
     public class DeviceDictionary

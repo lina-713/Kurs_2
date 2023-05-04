@@ -6,8 +6,17 @@
         xmlns:local="clr-namespace:Kurs_2"
         mc:Ignorable="d"
         Title="EnterDb" Height="450" Width="800">
-    <Grid>
-        <Grid/>
+    <Grid x:Name="dataGrid">
+        <Grid>
+            <Button Content="Button" HorizontalAlignment="Left" Height="45" Margin="285,356,0,0" VerticalAlignment="Top" Width="131" Click="Button_Click"/>
+            <ComboBox x:Name="combobox" HorizontalAlignment="Left" Height="33" Margin="10,362,0,0" VerticalAlignment="Top" Width="192" >
+                <ComboBoxItem Content="Device" Uid="1" IsSelected="true" />
+                <ComboBoxItem Content="Files" Uid="2" />
+                <ComboBoxItem Content="Users" Uid="3" />
+                <ComboBoxItem Content="AuditLog" Uid="4" />
+            </ComboBox>
+            <DataGrid x:Name="dataGrid1" HorizontalAlignment="Center" Height="271" Margin="0,10,0,0" VerticalAlignment="Top" Width="780" d:ItemsSource="{d:Binding}"/>
+        </Grid>
 
     </Grid>
 </Window>
